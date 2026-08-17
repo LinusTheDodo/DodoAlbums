@@ -17,6 +17,9 @@
     const modalDesc = $('#modalDesc');
     const modalClose = $('#modalClose');
 
+    // 新增：返回顶部按钮
+    const backToTopBtn = $('#backToTopBtn');
+
     let albumsList = [];
     let currentAlbumId = null;
     let currentPhotos = [];
@@ -313,6 +316,18 @@
         }, { threshold: 0.1 });
 
         observer.observe(albumsSection);
+    }
+
+    // ======== 顶部按钮：回到介绍页并显示 Hero ========
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function() {
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // 恢复显示 Hero（如果被隐藏）
+            if (hero) {
+                hero.style.display = '';
+            }
+        });
     }
 
     loadAlbumsList();
