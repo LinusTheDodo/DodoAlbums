@@ -5,15 +5,18 @@
 ### 目录结构
 
 ```
-/
-├── index.html           # 主页本体
-├── css/style.css        # 主页风格
-├── js/app.js            # 主页逻辑
-├── albums.json          # 主页相簿索引（必须）
-└── photo/               # 所有相簿文件夹
-    └── 相簿名/
-        ├── 图片文件
-        └── describe.json
+/（网站根目录）
+├── index.html             # 主页本体
+├── css/style.css          # 主页风格
+├── js/app.js              # 主页逻辑
+├── albums.json            # 主页相簿索引（必须）
+└── photo/                 # 所有相簿文件夹
+    ├── 相簿1/   
+    │   ├── 图片文件         # jpg png等
+    │   └── describe.json  # 此相簿及里面图片的描述
+    └── 相簿2/   
+        ├── 图片文件         # jpg png等
+        └── describe.json  # 此相簿及里面图片的描述
 ```
 
 ---
