@@ -4,7 +4,6 @@
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => document.querySelectorAll(sel);
 
-    const app = $('#app');
     const pageContainer = $('#pageContainer');
     const toggleBtn = $('#pageToggleBtn');
     const albumsContainer = $('#albumsContainer');
@@ -24,7 +23,6 @@
     let currentPhotos = [];
     let currentFolder = '';
 
-    // ======== 工具 ========
     function unescapeString(str) {
         if (!str) return '';
         return str
@@ -35,7 +33,6 @@
             .replace(/\\'/g, "'");
     }
 
-    // ======== 解析 ========
     function parseAlbums(text) {
         const lines = text.split(/\r?\n/);
         const items = {};
@@ -131,10 +128,8 @@
                 ${details ? `<br /><small style="opacity:0.6;font-size:0.9rem;">${details}</small>` : ''}
             </div>
         `;
-        app.classList.add('loaded');
     }
 
-    // ======== 加载 ========
     async function loadAlbumsList() {
         if (window.location.protocol === 'file:') {
             showError('⛔ 检测到 file:// 协议', '请使用本地 HTTP 服务器（如 VS Code Live Server）打开页面。');
@@ -148,7 +143,6 @@
             const text = await res.text();
             albumsList = parseAlbums(text);
             renderAlbums();
-            app.classList.add('loaded');
         } catch (err) {
             console.error('加载 albums.json 失败:', err);
             showError(
@@ -159,7 +153,6 @@
         }
     }
 
-    // ======== 渲染相簿 ========
     function renderAlbums() {
         if (!albumsList.length) {
             showError('暂无相簿数据', '请检查 albums.json 内容格式是否正确。');
@@ -190,7 +183,6 @@
         });
     }
 
-    // ======== 打开相簿 ========
     async function openAlbum(albumId) {
         const album = albumsList.find(a => a.id === albumId);
         if (!album) return;
@@ -213,7 +205,7 @@
 
             // 显示相簿详情（覆盖）
             albumDetail.classList.add('active');
-            document.querySelector('.page-container').style.display = 'none';
+            pageContainer.style.display = 'none';
 
             detailTitle.textContent = title;
             detailDesc.textContent = description;
@@ -254,7 +246,6 @@
         }
     }
 
-    // ======== 模态框 ========
     function openModal(folder, photoIndex) {
         const photo = currentPhotos[photoIndex];
         if (!photo) return;
@@ -282,32 +273,34 @@
         document.body.style.overflow = '';
     }
 
-    // ======== 返回相簿列表 ========
     function goBackToAlbums() {
         albumDetail.classList.remove('active');
-        document.querySelector('.page-container').style.display = 'block';
+        pageContainer.style.display = 'block';
         toggleBtn.classList.remove('hidden');
         // 滚动到相簿页（第二页）
-        const albumsPage = document.getElementById('albums');
-        if (albumsPage) {
-            albumsPage.scrollIntoView({ behavior: 'smooth' });
-        }
+        const pageHeight = window.innerHeight;
+        pageContainer.scrollTo({ top: pageHeight, behavior: 'smooth' });
         currentAlbumId = null;
         currentPhotos = [];
         currentFolder = '';
+        setTimeout(updateToggleButton, 300);
     }
 
-    // ======== 箭头切换逻辑 ========
     function updateToggleButton() {
         if (!pageContainer) return;
         const scrollTop = pageContainer.scrollTop;
         const pageHeight = window.innerHeight;
         const currentPage = Math.round(scrollTop / pageHeight);
+
+        toggleBtn.classList.remove('at-top', 'at-bottom');
+
         if (currentPage === 0) {
             toggleBtn.textContent = '︾';
+            toggleBtn.classList.add('at-bottom');
             toggleBtn.setAttribute('aria-label', '切换到相簿');
         } else {
             toggleBtn.textContent = '︽';
+            toggleBtn.classList.add('at-top');
             toggleBtn.setAttribute('aria-label', '切换到简介');
         }
     }
@@ -320,11 +313,9 @@
         let targetPage = currentPage === 0 ? 1 : 0;
         const targetScroll = targetPage * pageHeight;
         pageContainer.scrollTo({ top: targetScroll, behavior: 'smooth' });
-        // 更新按钮文字（scroll事件会触发更新，但以防万一）
-        setTimeout(updateToggleButton, 200);
+        setTimeout(updateToggleButton, 300);
     }
 
-    // ======== 事件绑定 ========
     detailBack.addEventListener('click', goBackToAlbums);
 
     modalClose.textContent = '✕';
@@ -341,23 +332,16 @@
         }
     });
 
-    // 箭头按钮点击
     toggleBtn.addEventListener('click', togglePage);
-
-    // 滚动时更新按钮状态
     pageContainer.addEventListener('scroll', updateToggleButton);
 
-    // 窗口大小变化时重新计算按钮状态（防抖）
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(updateToggleButton, 100);
     });
 
-    // ======== 启动 ========
     loadAlbumsList();
-
-    // 初始更新按钮
-    setTimeout(updateToggleButton, 300);
+    setTimeout(updateToggleButton, 500);
 
 })();
