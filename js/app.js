@@ -5,7 +5,6 @@
     const $$ = (sel) => document.querySelectorAll(sel);
 
     const pageContainer = $('#pageContainer');
-    const toggleBtn = $('#pageToggleBtn');
     const albumsContainer = $('#albumsContainer');
     const albumDetail = $('#albumDetail');
     const detailTitle = $('#detailTitle');
@@ -200,10 +199,7 @@
             currentAlbumId = albumId;
             currentPhotos = parsed.photos || [];
 
-            // 隐藏箭头
-            toggleBtn.classList.add('hidden');
-
-            // 显示相簿详情（覆盖）
+            // 隐藏滚动容器，显示相簿详情
             albumDetail.classList.add('active');
             pageContainer.style.display = 'none';
 
@@ -276,44 +272,12 @@
     function goBackToAlbums() {
         albumDetail.classList.remove('active');
         pageContainer.style.display = 'block';
-        toggleBtn.classList.remove('hidden');
-        // 滚动到相簿页（第二页）
-        const pageHeight = window.innerHeight;
-        pageContainer.scrollTo({ top: pageHeight, behavior: 'smooth' });
         currentAlbumId = null;
         currentPhotos = [];
         currentFolder = '';
-        setTimeout(updateToggleButton, 300);
-    }
-
-    function updateToggleButton() {
-        if (!pageContainer) return;
-        const scrollTop = pageContainer.scrollTop;
+        // 滚动到相簿页（第二页）
         const pageHeight = window.innerHeight;
-        const currentPage = Math.round(scrollTop / pageHeight);
-
-        toggleBtn.classList.remove('at-top', 'at-bottom');
-
-        if (currentPage === 0) {
-            toggleBtn.textContent = '︾';
-            toggleBtn.classList.add('at-bottom');
-            toggleBtn.setAttribute('aria-label', '切换到相簿');
-        } else {
-            toggleBtn.textContent = '︽';
-            toggleBtn.classList.add('at-top');
-            toggleBtn.setAttribute('aria-label', '切换到简介');
-        }
-    }
-
-    function togglePage() {
-        if (!pageContainer) return;
-        const scrollTop = pageContainer.scrollTop;
-        const pageHeight = window.innerHeight;
-        const currentPage = Math.round(scrollTop / pageHeight);
-        let targetPage = currentPage === 0 ? 1 : 0;
-        const targetScroll = targetPage * pageHeight;
-        pageContainer.scrollTo({ top: targetScroll, behavior: 'smooth' });
-        setTimeout(updateToggleButton, 300);
+        pageContainer.scrollTo({ top: pageHeight, behavior: 'smooth' });
     }
 
     detailBack.addEventListener('click', goBackToAlbums);
@@ -332,16 +296,6 @@
         }
     });
 
-    toggleBtn.addEventListener('click', togglePage);
-    pageContainer.addEventListener('scroll', updateToggleButton);
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(updateToggleButton, 100);
-    });
-
     loadAlbumsList();
-    setTimeout(updateToggleButton, 500);
 
 })();
