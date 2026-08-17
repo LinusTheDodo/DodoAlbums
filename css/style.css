@@ -577,58 +577,6 @@ a {
     z-index: 1;
 }
 
-/* ===== 箭头切换按钮 ===== */
-.page-toggle {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 999;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    color: rgba(180, 180, 180, 0.6);
-    font-size: 32px;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 0;
-    animation: pulseGlow 2.5s ease-in-out infinite;
-    transition: color 0.3s ease, opacity 0.4s ease, bottom 0.3s ease, top 0.3s ease;
-}
-.page-toggle:hover {
-    color: rgba(255, 255, 255, 0.9);
-    animation-play-state: paused;
-}
-.page-toggle.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-.page-toggle.at-bottom {
-    bottom: 30px;
-    top: auto;
-}
-.page-toggle.at-top {
-    top: 30px;
-    bottom: auto;
-}
-@keyframes pulseGlow {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
-}
-@media (max-width: 480px) {
-    .page-toggle {
-        width: 36px;
-        height: 36px;
-        font-size: 26px;
-    }
-    .page-toggle.at-bottom { bottom: 20px; }
-    .page-toggle.at-top { top: 20px; }
-}
-
 /* ===== 空状态 ===== */
 .empty-state {
     text-align: center;
