@@ -16,8 +16,6 @@
     const modalTitle = $('#modalTitle');
     const modalDesc = $('#modalDesc');
     const modalClose = $('#modalClose');
-
-    // 新增：返回顶部按钮
     const backToTopBtn = $('#backToTopBtn');
 
     let albumsList = [];
@@ -25,6 +23,7 @@
     let currentPhotos = [];
     let currentFolder = '';
 
+    // ======== 工具函数 ========
     function unescapeString(str) {
         if (!str) return '';
         return str
@@ -35,6 +34,7 @@
             .replace(/\\'/g, "'");
     }
 
+    // ======== 解析 albums.json ========
     function parseAlbums(text) {
         const lines = text.split(/\r?\n/);
         const items = {};
@@ -76,6 +76,7 @@
         });
     }
 
+    // ======== 解析 describe.json ========
     function parseDescribe(text) {
         const lines = text.split(/\r?\n/);
         const data = { title: '', description: '', cover: '', photos: [] };
@@ -122,6 +123,7 @@
         return data;
     }
 
+    // ======== 错误显示 ========
     function showError(message, details = '') {
         albumsContainer.innerHTML = `
             <div class="empty-state" style="column-span:all;">
@@ -133,6 +135,7 @@
         app.classList.add('loaded');
     }
 
+    // ======== 加载 albums.json ========
     async function loadAlbumsList() {
         if (window.location.protocol === 'file:') {
             showError('⛔ 检测到 file:// 协议', '请使用本地 HTTP 服务器（如 VS Code Live Server）打开页面。');
@@ -157,6 +160,7 @@
         }
     }
 
+    // ======== 渲染相簿 ========
     function renderAlbums() {
         if (!albumsList.length) {
             showError('暂无相簿数据', '请检查 albums.json 内容格式是否正确。');
@@ -187,6 +191,7 @@
         });
     }
 
+    // ======== 打开相簿 ========
     async function openAlbum(albumId) {
         const album = albumsList.find(a => a.id === albumId);
         if (!album) return;
@@ -246,6 +251,7 @@
         }
     }
 
+    // ======== 模态框 ========
     function openModal(folder, photoIndex) {
         const photo = currentPhotos[photoIndex];
         if (!photo) return;
@@ -258,7 +264,6 @@
 
         let descRaw = photo.description || '';
         if (descRaw.trim()) {
-            // 将字面量 \n 转为换行符，启用 breaks 选项
             const descWithNewlines = descRaw.replace(/\\n/g, '\n');
             modalDesc.innerHTML = marked.parse(descWithNewlines, { breaks: true });
         } else {
@@ -283,34 +288,31 @@
         document.getElementById('albums').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    // ======== 事件绑定 ========
     detailBack.addEventListener('click', goHome);
-
-    // 关闭按钮显示“✕”
     modalClose.textContent = '✕';
     modalClose.addEventListener('click', closeModal);
-
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeModal();
     });
-
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
     });
 
-    // ======== 滚动到相簿后隐藏 Hero（永不出现） ========
+    // ======== Hero 渐变隐藏/显示（使用 class） ========
     const hero = document.querySelector('.hero');
     const albumsSection = document.getElementById('albums');
+
     if (hero && albumsSection) {
-        // 初始检查：如果页面加载时滚动位置已在相簿区域，直接隐藏
+        // 初始检查：如果已经在相簿区域，添加隐藏类
         if (window.scrollY >= albumsSection.offsetTop - 100) {
-            hero.style.display = 'none';
+            hero.classList.add('hero-hidden');
         }
 
-        // 监听滚动，当相簿进入视口时隐藏 Hero（仅触发一次）
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    hero.style.display = 'none';
+                    hero.classList.add('hero-hidden');
                 }
             });
         }, { threshold: 0.1 });
@@ -318,18 +320,17 @@
         observer.observe(albumsSection);
     }
 
-    // ======== 顶部按钮：回到介绍页并显示 Hero ========
+    // ======== 回顶按钮：滚动到顶部并移除隐藏类 ========
     if (backToTopBtn) {
         backToTopBtn.addEventListener('click', function() {
-            // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            // 恢复显示 Hero（如果被隐藏）
             if (hero) {
-                hero.style.display = '';
+                hero.classList.remove('hero-hidden');
             }
         });
     }
 
+    // ======== 启动 ========
     loadAlbumsList();
 
 })();
