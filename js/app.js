@@ -5,6 +5,8 @@
     const $$ = (sel) => document.querySelectorAll(sel);
 
     const app = $('#app');
+    const pageContainer = $('#pageContainer');
+    const toggleBtn = $('#pageToggleBtn');
     const albumsContainer = $('#albumsContainer');
     const albumDetail = $('#albumDetail');
     const detailTitle = $('#detailTitle');
@@ -16,14 +18,13 @@
     const modalTitle = $('#modalTitle');
     const modalDesc = $('#modalDesc');
     const modalClose = $('#modalClose');
-    const backToTopBtn = $('#backToTopBtn');
 
     let albumsList = [];
     let currentAlbumId = null;
     let currentPhotos = [];
     let currentFolder = '';
 
-    // ======== 工具函数 ========
+    // ======== 工具 ========
     function unescapeString(str) {
         if (!str) return '';
         return str
@@ -34,7 +35,7 @@
             .replace(/\\'/g, "'");
     }
 
-    // ======== 解析 albums.json ========
+    // ======== 解析 ========
     function parseAlbums(text) {
         const lines = text.split(/\r?\n/);
         const items = {};
@@ -76,7 +77,6 @@
         });
     }
 
-    // ======== 解析 describe.json ========
     function parseDescribe(text) {
         const lines = text.split(/\r?\n/);
         const data = { title: '', description: '', cover: '', photos: [] };
@@ -123,7 +123,6 @@
         return data;
     }
 
-    // ======== 错误显示 ========
     function showError(message, details = '') {
         albumsContainer.innerHTML = `
             <div class="empty-state" style="column-span:all;">
@@ -135,7 +134,7 @@
         app.classList.add('loaded');
     }
 
-    // ======== 加载 albums.json ========
+    // ======== 加载 ========
     async function loadAlbumsList() {
         if (window.location.protocol === 'file:') {
             showError('⛔ 检测到 file:// 协议', '请使用本地 HTTP 服务器（如 VS Code Live Server）打开页面。');
@@ -209,8 +208,12 @@
             currentAlbumId = albumId;
             currentPhotos = parsed.photos || [];
 
-            document.querySelector('.albums-section').style.display = 'none';
+            // 隐藏箭头
+            toggleBtn.classList.add('hidden');
+
+            // 显示相簿详情（覆盖）
             albumDetail.classList.add('active');
+            document.querySelector('.page-container').style.display = 'none';
 
             detailTitle.textContent = title;
             detailDesc.textContent = description;
@@ -279,58 +282,82 @@
         document.body.style.overflow = '';
     }
 
-    function goHome() {
+    // ======== 返回相簿列表 ========
+    function goBackToAlbums() {
         albumDetail.classList.remove('active');
-        document.querySelector('.albums-section').style.display = 'block';
+        document.querySelector('.page-container').style.display = 'block';
+        toggleBtn.classList.remove('hidden');
+        // 滚动到相簿页（第二页）
+        const albumsPage = document.getElementById('albums');
+        if (albumsPage) {
+            albumsPage.scrollIntoView({ behavior: 'smooth' });
+        }
         currentAlbumId = null;
         currentPhotos = [];
         currentFolder = '';
-        document.getElementById('albums').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ======== 箭头切换逻辑 ========
+    function updateToggleButton() {
+        if (!pageContainer) return;
+        const scrollTop = pageContainer.scrollTop;
+        const pageHeight = window.innerHeight;
+        const currentPage = Math.round(scrollTop / pageHeight);
+        if (currentPage === 0) {
+            toggleBtn.textContent = '︾';
+            toggleBtn.setAttribute('aria-label', '切换到相簿');
+        } else {
+            toggleBtn.textContent = '︽';
+            toggleBtn.setAttribute('aria-label', '切换到简介');
+        }
+    }
+
+    function togglePage() {
+        if (!pageContainer) return;
+        const scrollTop = pageContainer.scrollTop;
+        const pageHeight = window.innerHeight;
+        const currentPage = Math.round(scrollTop / pageHeight);
+        let targetPage = currentPage === 0 ? 1 : 0;
+        const targetScroll = targetPage * pageHeight;
+        pageContainer.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        // 更新按钮文字（scroll事件会触发更新，但以防万一）
+        setTimeout(updateToggleButton, 200);
     }
 
     // ======== 事件绑定 ========
-    detailBack.addEventListener('click', goHome);
+    detailBack.addEventListener('click', goBackToAlbums);
+
     modalClose.textContent = '✕';
     modalClose.addEventListener('click', closeModal);
+
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeModal();
     });
+
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+        if (e.key === 'Escape') {
+            if (modalOverlay.classList.contains('active')) closeModal();
+            else if (albumDetail.classList.contains('active')) goBackToAlbums();
+        }
     });
 
-    // ======== Hero 渐变隐藏/显示（使用 class） ========
-    const hero = document.querySelector('.hero');
-    const albumsSection = document.getElementById('albums');
+    // 箭头按钮点击
+    toggleBtn.addEventListener('click', togglePage);
 
-    if (hero && albumsSection) {
-        // 初始检查：如果已经在相簿区域，添加隐藏类
-        if (window.scrollY >= albumsSection.offsetTop - 100) {
-            hero.classList.add('hero-hidden');
-        }
+    // 滚动时更新按钮状态
+    pageContainer.addEventListener('scroll', updateToggleButton);
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    hero.classList.add('hero-hidden');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        observer.observe(albumsSection);
-    }
-
-    // ======== 回顶按钮：滚动到顶部并移除隐藏类 ========
-    if (backToTopBtn) {
-        backToTopBtn.addEventListener('click', function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (hero) {
-                hero.classList.remove('hero-hidden');
-            }
-        });
-    }
+    // 窗口大小变化时重新计算按钮状态（防抖）
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(updateToggleButton, 100);
+    });
 
     // ======== 启动 ========
     loadAlbumsList();
+
+    // 初始更新按钮
+    setTimeout(updateToggleButton, 300);
 
 })();
