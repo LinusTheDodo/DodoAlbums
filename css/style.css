@@ -429,7 +429,7 @@ a {
     transform: scale(1.02);
 }
 
-/* ===== 模态框（防溢出） ===== */
+/* ===== 模态框（优化尺寸和间距） ===== */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -438,7 +438,7 @@ a {
     background: rgba(11, 11, 14, 0.88);
     backdrop-filter: blur(32px) saturate(1.2);
     -webkit-backdrop-filter: blur(32px) saturate(1.2);
-    padding: 1rem;
+    padding: 1.2rem;           /* 与屏幕边缘保持间距 */
     overflow-y: auto;
     animation: modalFade 0.4s ease;
 }
@@ -456,7 +456,7 @@ a {
 .modal-content {
     max-width: 900px;
     width: 100%;
-    max-height: 95dvh;
+    max-height: 90dvh;         /* 整体高度限制，留出上下边距 */
     background: var(--bg-secondary);
     border: 1px solid var(--glass-border);
     box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
@@ -472,13 +472,15 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    flex: 0 0 auto;           /* 不伸缩，由图片撑开 */
+    width: 100%;
     min-height: 0;
 }
 .modal-image-wrap img {
-    max-height: 75dvh;
-    width: auto;
+    max-height: 70dvh;        /* 图片最大高度，避免过大 */
     max-width: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
     display: block;
 }
@@ -486,7 +488,7 @@ a {
 .modal-body {
     padding: 1.5rem 2rem 2rem;
     overflow-y: auto;
-    flex: 1;
+    flex: 1 1 auto;           /* 占据剩余空间，但可收缩 */
     background: var(--bg-secondary);
 }
 
@@ -568,7 +570,7 @@ a {
     letter-spacing: 0.06em;
     opacity: 0.3;
     font-weight: 300;
-    margin-top: auto;      /* 在弹性容器中推到底部 */
+    margin-top: auto;
     width: 100%;
 }
 .album-detail .site-footer {
@@ -597,10 +599,11 @@ a {
     .hero-avatar { width: 72px; height: 72px; }
     .albums-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     .albums-header .section-sub { text-align: left; }
-    .modal-content { max-height: 98dvh; }
+    .modal-content { max-height: 95dvh; }
     .modal-body { padding: 1.2rem 1.2rem 1.5rem; }
-    .modal-image-wrap img { max-height: 50dvh; }
+    .modal-image-wrap img { max-height: 60dvh; }
     .modal-close { top: 8px; right: 10px; width: 34px; height: 34px; font-size: 0.8rem; }
+    .modal-overlay { padding: 0.8rem; }
 }
 
 @media (max-width: 480px) {
@@ -612,4 +615,6 @@ a {
     .photo-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
     .detail-header { padding: 0 0 1rem 0; }
     .modal-body .photo-title { font-size: 1.1rem; }
+    .modal-overlay { padding: 0.6rem; }
+    .modal-image-wrap img { max-height: 55dvh; }
 }
