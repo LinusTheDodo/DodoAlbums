@@ -283,7 +283,7 @@
     detailBack.addEventListener('click', goHome);
 
     // 关闭按钮显示“关闭”
-    modalClose.textContent = '关闭';
+    modalClose.textContent = '✕';
     modalClose.addEventListener('click', closeModal);
 
     modalOverlay.addEventListener('click', (e) => {
