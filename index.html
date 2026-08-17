@@ -12,66 +12,64 @@
 </head>
 <body>
 
-    <div id="app">
-        <!-- 箭头切换按钮（固定在底部中央） -->
-        <button id="pageToggleBtn" class="page-toggle" aria-label="切换页面">︾</button>
+<div id="app">
+    <!-- 箭头切换按钮 -->
+    <button id="pageToggleBtn" class="page-toggle" aria-label="切换页面">︾</button>
 
-        <!-- 滚动容器（两页） -->
-        <div id="pageContainer" class="page-container">
-            <!-- 第一页：简介 -->
-            <section class="page-section hero" id="home">
-                <div class="hero-inner glass">
-                    <img class="hero-avatar" src="https://picsum.photos/seed/portrait/200/200" alt="摄影师肖像" />
-                    <h1 class="hero-name">林 逸</h1>
-                    <p class="hero-tagline">Lens · Light · Life</p>
-                    <div class="hero-divider"></div>
-                    <p class="hero-desc">
-                        用镜头捕捉稍纵即逝的瞬间，在光影之间寻找永恒的韵律。
-                        这里是我用相机写下的视觉日记，每一帧都是对世界的凝视与对话。
-                    </p>
-                    <div class="hero-scroll-hint">滚动探索 <span class="arrow">↓</span></div>
-                </div>
-            </section>
-
-            <!-- 第二页：相簿 -->
-            <section class="page-section albums-section" id="albums">
-                <div class="albums-header">
-                    <h2 class="section-title">相 簿</h2>
-                    <p class="section-sub">用影像串联起时间的碎片</p>
-                </div>
-                <div class="albums-masonry" id="albumsContainer">
-                    <!-- 由 JS 渲染 -->
-                </div>
-            </section>
-        </div>
-
-        <!-- 相簿详情（覆盖层） -->
-        <section class="album-detail" id="albumDetail">
-            <div class="detail-header">
-                <button class="detail-back" id="detailBack">← 返回</button>
-                <h2 class="detail-title" id="detailTitle">相簿名称</h2>
-                <p class="detail-desc" id="detailDesc">相簿描述</p>
+    <!-- 滚动容器（两页） -->
+    <div id="pageContainer" class="page-container">
+        <!-- 第一页：简介 -->
+        <section class="page-section hero" id="home">
+            <div class="hero-inner glass">
+                <img class="hero-avatar" src="https://picsum.photos/seed/portrait/200/200" alt="摄影师肖像" />
+                <h1 class="hero-name">林 逸</h1>
+                <p class="hero-tagline">Lens · Light · Life</p>
+                <div class="hero-divider"></div>
+                <p class="hero-desc">
+                    用镜头捕捉稍纵即逝的瞬间，在光影之间寻找永恒的韵律。
+                    这里是我用相机写下的视觉日记，每一帧都是对世界的凝视与对话。
+                </p>
+                <div class="hero-scroll-hint">滚动探索 <span class="arrow">↓</span></div>
             </div>
-            <div class="photo-grid" id="photoGrid"></div>
         </section>
 
-        <!-- 模态框 -->
-        <div class="modal-overlay" id="modalOverlay">
-            <div class="modal-content">
-                <div class="modal-image-wrap">
-                    <button class="modal-close" id="modalClose">✕</button>
-                    <img id="modalImage" src="" alt="照片" />
-                </div>
-                <div class="modal-body">
-                    <h3 class="photo-title" id="modalTitle">照片标题</h3>
-                    <div class="photo-desc" id="modalDesc"></div>
-                </div>
+        <!-- 第二页：相簿 -->
+        <section class="page-section albums-section" id="albums">
+            <div class="albums-header">
+                <h2 class="section-title">相 簿</h2>
+                <p class="section-sub">用影像串联起时间的碎片</p>
             </div>
-        </div>
-
-        <footer class="site-footer">&copy; 2026 林逸 · 用光影书写时间</footer>
+            <div class="albums-masonry" id="albumsContainer"></div>
+        </section>
     </div>
 
-    <script src="js/app.js"></script>
+    <!-- 相簿详情（覆盖层） -->
+    <section class="album-detail" id="albumDetail">
+        <div class="detail-header">
+            <button class="detail-back" id="detailBack">← 返回</button>
+            <h2 class="detail-title" id="detailTitle">相簿名称</h2>
+            <p class="detail-desc" id="detailDesc">相簿描述</p>
+        </div>
+        <div class="photo-grid" id="photoGrid"></div>
+    </section>
+
+    <!-- 模态框 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-image-wrap">
+                <button class="modal-close" id="modalClose">✕</button>
+                <img id="modalImage" src="" alt="照片" />
+            </div>
+            <div class="modal-body">
+                <h3 class="photo-title" id="modalTitle">照片标题</h3>
+                <div class="photo-desc" id="modalDesc"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">&copy; 2026 林逸 · 用光影书写时间</footer>
+</div>
+
+<script src="js/app.js"></script>
 </body>
 </html>
