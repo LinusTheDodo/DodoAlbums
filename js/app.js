@@ -282,7 +282,7 @@
 
     detailBack.addEventListener('click', goHome);
 
-    // 关闭按钮显示“关闭”
+    // 关闭按钮显示“✕”
     modalClose.textContent = '✕';
     modalClose.addEventListener('click', closeModal);
 
@@ -293,6 +293,27 @@
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
     });
+
+    // ======== 滚动到相簿后隐藏 Hero（永不出现） ========
+    const hero = document.querySelector('.hero');
+    const albumsSection = document.getElementById('albums');
+    if (hero && albumsSection) {
+        // 初始检查：如果页面加载时滚动位置已在相簿区域，直接隐藏
+        if (window.scrollY >= albumsSection.offsetTop - 100) {
+            hero.style.display = 'none';
+        }
+
+        // 监听滚动，当相簿进入视口时隐藏 Hero（仅触发一次）
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    hero.style.display = 'none';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(albumsSection);
+    }
 
     loadAlbumsList();
 
