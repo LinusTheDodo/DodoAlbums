@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>光影集 · 摄影作品</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,13 +30,16 @@
             </div>
         </section>
 
-        <!-- 第二页：相簿 -->
+        <!-- 第二页：相簿 + 版权信息 -->
         <section class="page-section albums-section" id="albums">
             <div class="albums-header">
                 <h2 class="section-title">相 簿</h2>
                 <p class="section-sub">用影像串联起时间的碎片</p>
             </div>
             <div class="albums-masonry" id="albumsContainer"></div>
+            <footer class="site-footer">
+                &copy; 2026 林逸 · 用光影书写时间
+            </footer>
         </section>
     </div>
 
@@ -48,6 +51,10 @@
             <p class="detail-desc" id="detailDesc">相簿描述</p>
         </div>
         <div class="photo-grid" id="photoGrid"></div>
+        <!-- 相簿详情内的版权信息（可选，避免空白） -->
+        <footer class="site-footer" style="position:relative;margin-top:2rem;opacity:0.3;">
+            &copy; 2026 林逸 · 用光影书写时间
+        </footer>
     </section>
 
     <!-- 模态框 -->
@@ -64,7 +71,6 @@
         </div>
     </div>
 
-    <footer class="site-footer">&copy; 2026 林逸 · 用光影书写时间</footer>
 </div>
 
 <script src="js/app.js"></script>
