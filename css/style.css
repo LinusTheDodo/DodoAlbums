@@ -31,7 +31,7 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
-    overflow: hidden; /* 禁止 body 滚动 */
+    overflow: hidden;
 }
 
 img {
@@ -82,7 +82,7 @@ a {
     max-width: 560px;
 }
 
-/* ===== APP 容器（固定高度，防止滚动） ===== */
+/* ===== APP 容器 ===== */
 #app {
     height: 100vh;
     overflow: hidden;
@@ -116,7 +116,6 @@ a {
     position: relative;
 }
 
-/* 相簿页特殊：让瀑布流在视口内滚动 */
 .albums-section {
     justify-content: flex-start;
     padding-top: 2rem;
@@ -126,7 +125,7 @@ a {
     padding-bottom: 2rem;
 }
 
-/* ===== HERO（第一页） ===== */
+/* ===== HERO ===== */
 .hero {
     background:
         radial-gradient(ellipse at 20% 50%, rgba(212, 182, 138, 0.06) 0%, transparent 60%),
@@ -223,7 +222,7 @@ a {
     50% { transform: translateY(6px); }
 }
 
-/* ===== 相簿页（第二页） ===== */
+/* ===== 相簿页 ===== */
 .albums-header {
     padding: 0 0.5rem 2.5rem 0.5rem;
     display: flex;
@@ -578,7 +577,7 @@ a {
     z-index: 1;
 }
 
-/* ===== 箭头切换按钮（位置由 JS 动态控制） ===== */
+/* ===== 箭头切换按钮 ===== */
 .page-toggle {
     position: fixed;
     left: 50%;
@@ -608,7 +607,6 @@ a {
     opacity: 0;
     pointer-events: none;
 }
-/* 位置由 JS 添加类来控制，默认在底部 */
 .page-toggle.at-bottom {
     bottom: 30px;
     top: auto;
