@@ -1,0 +1,83 @@
+光影集 · 使用说明
+
+目录结构
+
+```
+/
+├── index.html
+├── css/style.css
+├── js/app.js
+├── albums.json          # 相簿索引（必须）
+└── photo/               # 所有相簿文件夹
+    └── 相簿名/
+        ├── 图片文件
+        └── describe.json
+```
+
+---
+
+1. 编写 albums.json（根目录）
+
+```ini
+# 相簿列表（编号 a001, a002...）
+a001.title = 相簿标题
+a001.dscb = 相簿简介
+a001.cover = /相簿文件夹/封面图片.jpg
+
+a002.title = 另一相簿
+a002.dscb = 简介
+a002.cover = /另一文件夹/cover.jpg
+```
+
+---
+
+2. 编写每个相簿的 describe.json（在相簿文件夹内）
+
+```ini
+ab.title = 相簿标题（可覆盖 albums.json）
+ab.dscb = 相簿描述（可覆盖）
+ab.cover = 封面文件名（可选）
+
+001.file = 照片1.jpg
+001.title = 作品标题
+001.dscb = **描述**，支持 *Markdown*，\n 表示换行。
+
+002.file = 照片2.jpg
+002.title = 另一作品
+002.dscb = 描述文字...
+```
+
+---
+
+3. 图片路径
+
+· 封面路径：albums.json 中写 /相簿名/图片.jpg，实际对应 photo/相簿名/图片.jpg
+· 照片路径：describe.json 中只写文件名，实际对应 photo/相簿名/文件名
+
+---
+
+4. 本地预览
+
+必须使用 HTTP 服务器（不要双击 index.html）：
+
+· VS Code：右键 → Open with Live Server
+· Python：python3 -m http.server 8080 → 访问 http://localhost:8080
+
+---
+
+5. 部署到 Cloudflare Pages
+
+1. 推送项目到 GitHub
+2. Cloudflare Pages → 连接仓库 → 部署设置：
+   · 框架：无（Static）
+   · 输出目录：/
+3. 点击部署，完成。
+
+---
+
+常见问题
+
+· 黑屏 → 请通过 HTTP 服务器访问，不要双击文件
+· 相簿为空 → 检查 albums.json 格式是否正确，编号是否连续（a001, a002...）
+· 图片不显示 → 检查文件名大小写，确认图片在对应文件夹内
+· 换行无效 → 描述中使用 \n 表示换行（例如 第一行\n\n第二行）
