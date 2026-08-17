@@ -1,5 +1,7 @@
 ## 光影集 · 使用说明
 - ___DodoBird 的网页摄影长廊。___
+- 地址：https://dodobird.pages.dev
+
 ### 目录结构
 
 ```
