@@ -22,6 +22,24 @@
     let currentPhotos = [];
     let currentFolder = '';
 
+    // ======== 处理图片加载失败 ========
+    function handleImageError(img) {
+        if (img.dataset.errorHandled) return;
+        img.dataset.errorHandled = 'true';
+
+        img.style.display = 'none';
+
+        const parent = img.parentNode;
+        if (parent.querySelector('.loading-bar')) return;
+
+        const loader = document.createElement('div');
+        loader.className = 'loading-bar';
+        const bar = document.createElement('div');
+        bar.className = 'loading-bar-track';
+        loader.appendChild(bar);
+        parent.appendChild(loader);
+    }
+
     function unescapeString(str) {
         if (!str) return '';
         return str
@@ -163,7 +181,7 @@
             html += `
                 <div class="album-card" data-id="${album.id}">
                     <div class="cover-wrap">
-                        <img src="${album.cover}" alt="${album.title}" loading="lazy" onerror="this.src='./photo/nf.jpg'" />
+                        <img src="${album.cover}" alt="${album.title}" loading="lazy" onerror="handleImageError(this)" />
                     </div>
                     <div class="info">
                         <h3>${album.title}</h3>
@@ -199,7 +217,6 @@
             currentAlbumId = albumId;
             currentPhotos = parsed.photos || [];
 
-            // 隐藏滚动容器，显示相簿详情
             albumDetail.classList.add('active');
             pageContainer.style.display = 'none';
 
@@ -216,7 +233,7 @@
                 const src = `photo/${folder}/${photo.file}`;
                 gridHtml += `
                     <div class="photo-item" data-photoindex="${i}">
-                        <img src="${src}" alt="${photo.title}" loading="lazy" onerror="this.src='./photo/nf.jpg'" />
+                        <img src="${src}" alt="${photo.title}" loading="lazy" onerror="handleImageError(this)" />
                     </div>
                 `;
             });
@@ -275,7 +292,6 @@
         currentAlbumId = null;
         currentPhotos = [];
         currentFolder = '';
-        // 滚动到相簿页（第二页）
         const pageHeight = window.innerHeight;
         pageContainer.scrollTo({ top: pageHeight, behavior: 'smooth' });
     }
