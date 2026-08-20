@@ -27,19 +27,28 @@
         if (img.dataset.errorHandled) return;
         img.dataset.errorHandled = 'true';
 
+        // 隐藏图片
         img.style.display = 'none';
 
         const parent = img.parentNode;
         if (parent.querySelector('.loading-bar')) return;
 
+        // 确保父容器有高度
+        if (!parent.style.height || parent.style.height === 'auto') {
+            parent.style.minHeight = '200px';
+            parent.style.height = 'auto';
+        }
+
+        // 创建加载条
         const loader = document.createElement('div');
         loader.className = 'loading-bar';
-        const bar = document.createElement('div');
-        bar.className = 'loading-bar-track';
-        loader.appendChild(bar);
+        const track = document.createElement('div');
+        track.className = 'loading-bar-track';
+        loader.appendChild(track);
         parent.appendChild(loader);
     }
 
+    // ======== 工具 ========
     function unescapeString(str) {
         if (!str) return '';
         return str
