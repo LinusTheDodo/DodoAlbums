@@ -618,3 +618,44 @@ a {
     .modal-overlay { padding: 0.6rem; }
     .modal-image-wrap img { max-height: 55dvh; }
 }
+/* ===== 图片加载失败时的左右滑动等待条 ===== */
+.cover-wrap,
+.photo-item {
+    position: relative;
+}
+
+.loading-bar {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(19, 19, 24, 0.6);
+    overflow: hidden;
+}
+
+.loading-bar-track {
+    width: 70%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-bar-track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -30%;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border-radius: 2px;
+    animation: slideLoad 1.2s ease-in-out infinite;
+}
+
+@keyframes slideLoad {
+    0% { left: -30%; }
+    100% { left: 100%; }
+}
