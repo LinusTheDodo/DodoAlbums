@@ -433,6 +433,23 @@ a {
     transform: scale(1.02);
 }
 
+.album-comments {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    padding: 2rem 0.5rem 0;
+    border-top: 1px solid var(--glass-border);
+}
+.album-comments h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+}
+.giscus,
+.giscus-frame {
+    width: 100%;
+}
+
 /* ===== 模态框（优化尺寸和间距） ===== */
 .modal-overlay {
     display: none;

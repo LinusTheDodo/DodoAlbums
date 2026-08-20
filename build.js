@@ -148,7 +148,20 @@ function renderAlbum(album) {
   const photoData = JSON.stringify(album.photos).replace(/</g, '\\u003c');
   return `${pageHead(album.title, '../../css/style.css')}\n<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>\n</head><body><main class="album-detail active">
     <header class="detail-header"><a class="detail-back" href="../../index.html">← 返回</a><h1 class="detail-title">${escapeHtml(album.title)}</h1><p class="detail-desc">${escapeHtml(album.description)}</p></header>
-    <div class="photo-grid">${photos || '<div class="empty-state">这个相簿还没有照片。</div>'}</div><footer class="site-footer">${footer}</footer>
+    <div class="photo-grid">${photos || '<div class="empty-state">这个相簿还没有照片。</div>'}</div><section class="album-comments" aria-label="相簿评论"><h2>评论</h2><script src="https://giscus.app/client.js"
+      data-repo="LinusTheDodo/DodoAlbums"
+      data-repo-id="R_kgDOT61XYQ"
+      data-category="General"
+      data-category-id="DIC_kwDOT61XYc4DDyqO"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="bottom"
+      data-theme="preferred_color_scheme"
+      data-lang="zh-CN"
+      crossorigin="anonymous"
+      async></script></section><footer class="site-footer">${footer}</footer>
   </main><div class="modal-overlay" id="modalOverlay"><div class="modal-content"><div class="modal-image-wrap"><button class="modal-close" type="button" aria-label="关闭">✕</button><img id="modalImage" alt=""></div><div class="modal-body"><h2 class="photo-title" id="modalTitle"></h2><div class="photo-desc" id="modalDesc"></div></div></div></div>
   <script>window.albumPhotos = ${photoData};</script><script src="../../js/album.js"></script></body></html>`;
 }
