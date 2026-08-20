@@ -163,7 +163,7 @@
             html += `
                 <div class="album-card" data-id="${album.id}">
                     <div class="cover-wrap">
-                        <img src="${album.cover}" alt="${album.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/${album.id}/600/400'" />
+                        <img src="${album.cover}" alt="${album.title}" loading="lazy" onerror="this.src='./photo/nf.jpg'" />
                     </div>
                     <div class="info">
                         <h3>${album.title}</h3>
@@ -216,7 +216,7 @@
                 const src = `photo/${folder}/${photo.file}`;
                 gridHtml += `
                     <div class="photo-item" data-photoindex="${i}">
-                        <img src="${src}" alt="${photo.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/${folder}${i}/400/300'" />
+                        <img src="${src}" alt="${photo.title}" loading="lazy" onerror="this.src='./photo/nf.jpg'" />
                     </div>
                 `;
             });
