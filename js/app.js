@@ -22,33 +22,6 @@
     let currentPhotos = [];
     let currentFolder = '';
 
-    // ======== 处理图片加载失败 ========
-    function handleImageError(img) {
-        if (img.dataset.errorHandled) return;
-        img.dataset.errorHandled = 'true';
-
-        // 隐藏图片
-        img.style.display = 'none';
-
-        const parent = img.parentNode;
-        if (parent.querySelector('.loading-bar')) return;
-
-        // 确保父容器有高度
-        if (!parent.style.height || parent.style.height === 'auto') {
-            parent.style.minHeight = '200px';
-            parent.style.height = 'auto';
-        }
-
-        // 创建加载条
-        const loader = document.createElement('div');
-        loader.className = 'loading-bar';
-        const track = document.createElement('div');
-        track.className = 'loading-bar-track';
-        loader.appendChild(track);
-        parent.appendChild(loader);
-    }
-
-    // ======== 工具 ========
     function unescapeString(str) {
         if (!str) return '';
         return str
@@ -190,7 +163,7 @@
             html += `
                 <div class="album-card" data-id="${album.id}">
                     <div class="cover-wrap">
-                        <img src="${album.cover}" alt="${album.title}" loading="lazy" onerror="handleImageError(this)" />
+                        <img src="${album.cover}" alt="${album.title}" loading="lazy" />
                     </div>
                     <div class="info">
                         <h3>${album.title}</h3>
@@ -242,7 +215,7 @@
                 const src = `photo/${folder}/${photo.file}`;
                 gridHtml += `
                     <div class="photo-item" data-photoindex="${i}">
-                        <img src="${src}" alt="${photo.title}" loading="lazy" onerror="handleImageError(this)" />
+                        <img src="${src}" alt="${photo.title}" loading="lazy" />
                     </div>
                 `;
             });
