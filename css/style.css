@@ -26,7 +26,7 @@ html {
 }
 
 body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -67,7 +67,7 @@ a {
 }
 
 .section-title {
-    font-family: "Playfair Display", serif;
+    font-family: "Playfair Display", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 400;
     font-size: clamp(1.8rem, 4vw, 3.2rem);
     letter-spacing: 0.04em;
@@ -162,7 +162,7 @@ a {
 }
 
 .hero-name {
-    font-family: "Playfair Display", serif;
+    font-family: "Playfair Display", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(2.6rem, 6vw, 4.8rem);
     font-weight: 500;
     letter-spacing: 0.02em;
@@ -320,7 +320,7 @@ a {
     background: var(--bg-secondary);
 }
 .album-card .info h3 {
-    font-family: "Playfair Display", serif;
+    font-family: "Playfair Display", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 400;
     font-size: 1.15rem;
     letter-spacing: 0.02em;
@@ -373,7 +373,7 @@ a {
     padding: 0.4rem 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: "Inter", sans-serif;
+    font-family: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     letter-spacing: 0.04em;
 }
 .detail-back:hover {
@@ -381,7 +381,7 @@ a {
     color: var(--text-primary);
 }
 .detail-title {
-    font-family: "Playfair Display", serif;
+    font-family: "Playfair Display", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     font-weight: 400;
     flex: 1;
@@ -440,7 +440,7 @@ a {
     border-top: 1px solid var(--glass-border);
 }
 .album-comments h2 {
-    font-family: "Playfair Display", serif;
+    font-family: "Playfair Display", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 1.4rem;
     font-weight: 400;
     margin-bottom: 1.25rem;
@@ -529,7 +529,7 @@ a {
     align-items: center;
     justify-content: center;
     z-index: 10;
-    font-family: "Inter", sans-serif;
+    font-family: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     border-radius: 50%;
     backdrop-filter: blur(4px);
 }
@@ -540,7 +540,7 @@ a {
 }
 
 .modal-body .photo-title {
-    font-family: "Playfair Display", serif;
+    font-family: "Playfair Display", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 1.4rem;
     font-weight: 400;
     margin-bottom: 0.6rem;
